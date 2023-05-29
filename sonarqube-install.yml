@@ -1,0 +1,48 @@
+trigger:
+  branches:
+    include:
+      - main  # Cambia "main" al nombre de la rama que deseas usar
+
+pool:
+  vmImage: 'ubuntu-latest'  # Cambia a la imagen de la máquina virtual que deseas utilizar
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'  # Cambia a la versión de Python que deseas utilizar
+    addToPath: true
+
+- script: |
+    wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-{VERSION}.zip
+    unzip sonarqube-{VERSION}.zip
+    mv sonarqube-{VERSION} sonarqube
+    rm sonarqube-{VERSION}.zip
+  displayName: 'Download and extract SonarQube'
+
+- script: |
+    cd sonarqube/bin/linux-x86-64/
+    ./sonar.sh start
+  displayName: 'Start SonarQube'
+
+- script: |
+    echo "Waiting for SonarQube to start..."
+    sleep 60  # Cambia el tiempo de espera según tus necesidades
+    sonarqube_host=$(curl -sS http://localhost:9000 | grep -o 'SonarQube\|404')
+    if [ "$sonarqube_host" == "SonarQube" ]; then
+      echo "SonarQube started successfully"
+    else
+      echo "Failed to start SonarQube"
+      exit 1
+    fi
+  displayName: 'Wait for SonarQube to start'
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      # Comandos adicionales para configurar SonarQube, como agregar proyectos, configurar análisis, etc.
+  displayName: 'Configure SonarQube'
+
+- script: |
+    cd sonarqube/bin/linux-x86-64/
+    ./sonar.sh stop
+  displayName: 'Stop SonarQube'

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Publicar Fotos de Mascotas</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <img src="https://www.banistmo.com/wps/wcm/connect/www.banistmo.com11237/f0f014f2-9c5f-44c4-b47a-114aa6f7d6ad/logo-banistmo-menu.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_7O9GHBG0O0M4A0Q3JGMS8408B6-f0f014f2-9c5f-44c4-b47a-114aa6f7d6ad-nzwptVu" alt="Banistmo">
+    <h1>Publicar Fotos de Mascotas</h1>
+
+    <div id="photo-form">
+        <input type="text" id="photo-url" placeholder="URL de la foto">
+        <input type="text" id="pet-name" placeholder="Nombre de la mascota">
+        <button onclick="addPhoto()">Publicar</button>
+    </div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper" id="photo-slider">
+            <!-- Agregar varias imagenes para el slider -->
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div id="photo-gallery"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
